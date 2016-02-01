@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Closure;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Response as IlluminateResponse;
@@ -71,7 +72,7 @@ class ImageCacheController extends BaseController
     {
         $path = $this->getImagePath($filename);
 
-        return $this->buildResponse(file_get_contents($path));
+        return $this->buildResponse($path);
     }
 
     /**
@@ -130,8 +131,14 @@ class ImageCacheController extends BaseController
             $image_path = $path.'/'.str_replace('..', '', $filename);
             if (file_exists($image_path) && is_file($image_path)) {
                 // file found
-                return $image_path;
+                return file_get_contents($image_path);
             }
+        }
+
+        //find file with Storage
+        if (Storage::has('images/' . $filename)) {
+            $image_path = Storage::get('images/' . $filename);
+            return $image_path;
         }
 
         // file not found
