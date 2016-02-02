@@ -6,6 +6,10 @@ The library uses the [Illuminate/Cache](https://github.com/illuminate/cache/) pa
 
 The principle is simple. Every method call to the Intervention Image class is captured and checked by the caching interface. If this particular sequence of operations already have taken place, the data will be loaded directly from the cache instead of a resource-intensive image operation.
 
+## Folk story
+
+I was want to use [Intervention Image URL Manipulation](http://image.intervention.io/use/url) but with source files from Laravel Storage (S3 driver in my case). So I made a minor change to load files from Storage beside configured paths.
+
 ## Installation
 
 You can install this package quickly and easily with Composer.
